@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link href="../CSS/calcLevelUp.css" rel="stylesheet" type="text/css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+      crossorigin="anonymous"
+    ></script>
+    <style type="text/css">
+          tr:hover { background-color: lightyellow; }
+      </style>
+    <script src="../data/expTable.js"></script>
+    <script src="../js/calcLevelUp.js"></script>
+    <script src="../data/mob_exp.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>레벨업 계산기</title>
+  </head>
+  <body style="text-align: center">
+    <br />
+    <h2>레벨업 계산기</h2>
+    <br />
+
+    <div
+      style="
+        display: flex;
+        flex-wrap: wrap;
+        text-align: center;
+        justify-content: center;
+      "
+    >
+    <div style="width: 460px; margin-right: 1rem">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col"></th>
+            <th scope="col" style="text-align: center">종류</th>
+            <th scope="col" style="text-align: center">세부</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <img src="../images/icons/2xCoupon.png" />
+            </td>
+            <td>경험치 쿠폰</td>
+            <td>
+              <select
+                id="exp_coupon"
+                class="form-select"
+                aria-label="Default select example"
+                style="width: 200px"
+                onchange='
+                var total_additional_exp = get_total_additional_exp();
+                let additional_exp = document.getElementById("exp_coupon").value;
+                document.getElementById("total_additional_exp").innerHTML = calc_additional_exp(additional_exp, "exp_coupon_rate");
+                '
+              >
+                <option selected value="0">없음</option>
+                <option value="50">1.5배 경험치 쿠폰</option>
+                <option value="100">2배 경험치 쿠폰</option>
+                <option value="200">3배 경험치 쿠폰</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <img src="../images/icons/expWeather.png" />
+            </td>
+            <td>경험치 뿌리기</td>
+            <td>
+              <select
+                id="exp_weather"
+                class="form-select"
+                aria-label="Default select example"
+                style="width: 200px"
+                onchange='
+                var total_additional_exp = get_total_additional_exp();
+                additional_exp = document.getElementById("exp_weather").value;
+                document.getElementById("total_additional_exp").innerHTML = calc_additional_exp(additional_exp, "exp_weather_rate");
+                '
+              >
+                <option selected value="0">없음</option>
+                <option value="50">있음</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <img src="../images/icons/exGold.png" />
+            </td>
+            <td>익스트림 골드</td>
+            <td>
+              <select
+                id="exGold"
+                class="form-select"
+                aria-label="Default select example"
+                style="width: 200px"
+                onchange='
+                var total_additional_exp = get_total_additional_exp();
+                additional_exp = document.getElementById("exGold").value;
+                document.getElementById("total_additional_exp").innerHTML = calc_additional_exp(additional_exp, "ex_gold_rate");
+                '
+              >
+                <option selected value="0">없음</option>
+                <option value="10">있음</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <img src="../images/icons/expPotion.png" />
+            </td>
+            <td>경험 축적의 비약</td>
+            <td>
+              <select
+                id="expPotion"
+                class="form-select"
+                aria-label="Default select example"
+                style="width: 200px"
+                onchange='
+                var total_additional_exp = get_total_additional_exp();
+                additional_exp = document.getElementById("expPotion").value;
+                document.getElementById("total_additional_exp").innerHTML = calc_additional_exp(additional_exp, "exp_potion_rate");
+                '
+              >
+                <option selected value="0">없음</option>
+                <option value="10">있음</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <img src="../images/icons/zero.png" />
+            </td>
+            <td>제로 유니온</td>
+            <td>
+              <select
+                id="zero"
+                class="form-select"
+                aria-label="Default select example"
+                style="width: 200px"
+                onchange='
+                var total_additional_exp = get_total_additional_exp();
+                additional_exp = document.getElementById("zero").value;
+                document.getElementById("total_additional_exp").innerHTML = calc_additional_exp(additional_exp, "zero_rate");
+                '
+              >
+                <option selected value="0">없음</option>
+                <option value="4">B랭크</option>
+                <option value="6">A랭크</option>
+                <option value="8">S랭크</option>
+                <option value="10">SS랭크</option>
+                <option value="12">SSS랭크</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <img src="../images/icons/elf.png" />
+            </td>
+            <td>메르세데스 링크</td>
+            <td>
+              <select
+                id="elf"
+                class="form-select"
+                aria-label="Default select example"
+                style="width: 200px"
+                onchange='
+                var total_additional_exp = get_total_additional_exp();
+                additional_exp = document.getElementById("elf").value;
+                document.getElementById("total_additional_exp").innerHTML = calc_additional_exp(additional_exp, "elf_rate");
+                '
+              >
+                <option selected value="0">없음</option>
+                <option value="10">1 레벨</option>
+                <option value="15">2 레벨</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <img src="../images/icons/pendant.png" />
+            </td>
+            <td>정령의 펜던트</td>
+            <td>
+              <select
+                id="pendant"
+                class="form-select"
+                aria-label="Default select example"
+                style="width: 200px"
+                onchange='
+                var total_additional_exp = get_total_additional_exp();
+                additional_exp = document.getElementById("pendant").value;
+                document.getElementById("total_additional_exp").innerHTML = calc_additional_exp(additional_exp, "pendant_rate");
+                '
+              >
+                <option selected value="0">없음</option>
+                <option value="30">풀 충전</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <img src="../images/icons/ring.png" />
+            </td>
+            <td>혈맹의 반지</td>
+            <td>
+              <select
+                id="ring"
+                class="form-select"
+                aria-label="Default select example"
+                style="width: 200px"
+                onchange='
+                var total_additional_exp = get_total_additional_exp();
+                additional_exp = document.getElementById("ring").value;
+                document.getElementById("total_additional_exp").innerHTML = calc_additional_exp(additional_exp, "ring_rate");
+                '
+              >
+                <option selected value="0">없음</option>
+                <option value="10">있음</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <img src="../images/icons/burning.png" />
+            </td>
+            <td>필드 버닝</td>
+            <td>
+              <select
+                id="burning"
+                class="form-select"
+                aria-label="Default select example"
+                style="width: 200px"
+                onchange='
+                var total_additional_exp = get_total_additional_exp();
+                additional_exp = document.getElementById("burning").value;
+                document.getElementById("total_additional_exp").innerHTML = calc_additional_exp(additional_exp, "burning_rate");
+                '
+              >
+                <option selected value="0">없음</option>
+                <option value="10">1 단계</option>
+                <option value="20">2 단계</option>
+                <option value="30">3 단계</option>
+                <option value="40">4 단계</option>
+                <option value="50">5 단계</option>
+                <option value="60">6 단계</option>
+                <option value="70">7 단계</option>
+                <option value="80">8 단계</option>
+                <option value="90">9 단계</option>
+                <option value="100">10 단계</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <img src="../images/icons/stat.png" />
+            </td>
+            <td>경험치 하이퍼 스탯</td>
+            <td>
+              <input
+                type="number"
+                class="form-control"
+                id="hyper"
+                style="width: 200px"
+                min="0"
+                max="10"
+                placeholder="하이퍼 스탯 경험치 %"
+                onchange='
+                var total_additional_exp = get_total_additional_exp();
+                additional_exp = document.getElementById("hyper").value;
+                if (!additional_exp){
+                  document.getElementById("hyper_rate").value = "0";
+                  document.getElementById("total_additional_exp").innerHTML = calc_additional_exp("0", "hyper_rate");
+                }
+                else if(parseFloat(additional_exp) > 10){
+                  document.getElementById("total_additional_exp").innerHTML = calc_additional_exp("10", "hyper_rate");
+                  document.getElementById("hyper").value = "10"
+                }
+                else if(parseFloat(additional_exp) < 0){
+                  document.getElementById("total_additional_exp").innerHTML = calc_additional_exp("0", "hyper_rate");
+                  document.getElementById("hyper").value = "0"
+                }
+                else{
+                  document.getElementById("total_additional_exp").innerHTML = calc_additional_exp(additional_exp, "hyper_rate");
+                }
+                '
+                required
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <img src="../images/icons/union.png" />
+            </td>
+            <td>유니온 경험치 점령</td>
+            <td>
+              <input
+                type="number"
+                class="form-control"
+                id="union"
+                style="width: 200px"
+                min="0"
+                max="10"
+                placeholder="유니온 점령 경험치 %"
+                onchange='
+                var total_additional_exp = get_total_additional_exp();
+                additional_exp = document.getElementById("union").value;
+                if (!additional_exp){
+                  document.getElementById("union_rate").value = "0";
+                  document.getElementById("total_additional_exp").innerHTML = calc_additional_exp("0", "union_rate");
+                }
+                else if(parseFloat(additional_exp) > 10){
+                  document.getElementById("total_additional_exp").innerHTML = calc_additional_exp("10", "union_rate");
+                  document.getElementById("union").value = "10"
+                }
+                else if(parseFloat(additional_exp) < 0){
+                  document.getElementById("total_additional_exp").innerHTML = calc_additional_exp("0", "union_rate");
+                  document.getElementById("union").value = "0"
+                }
+                else{
+                  document.getElementById("total_additional_exp").innerHTML = calc_additional_exp(additional_exp, "union_rate");
+                }
+                '
+                required
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <img src="../images/icons/holy.png" />
+            </td>
+            <td>추가 경험치</td>
+            <td>
+              <input
+                type="number"
+                class="form-control"
+                id="user"
+                style="width: 200px"
+                min="0"
+                max="300"
+                placeholder="추가 경험치 %"
+                onchange='
+                var total_additional_exp = get_total_additional_exp();
+                additional_exp = document.getElementById("user").value;
+                if (!additional_exp){
+                  document.getElementById("user_rate").value = "0";
+                  document.getElementById("total_additional_exp").innerHTML = calc_additional_exp("0", "user_rate");
+                }
+                else{
+                  document.getElementById("total_additional_exp").innerHTML = calc_additional_exp(additional_exp, "user_rate");
+                }
+                '
+                required
+              />
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <img src="../images/icons/loaded.png" />
+            </td>
+            <td>로디드 다이스</td>
+            <td>
+              <select
+                id="loaded"
+                class="form-select"
+                aria-label="Default select example"
+                style="width: 200px"
+                onchange='
+                var total_additional_exp = get_total_additional_exp();
+                additional_exp = document.getElementById("loaded").value;
+                document.getElementById("total_additional_exp").innerHTML = calc_additional_exp(additional_exp, "loaded_rate");
+                '
+              >
+                <option selected value="0">없음</option>
+                <option value="30">6번 고정</option>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <img src="../images/icons/roon.png" />
+            </td>
+            <td>룬</td>
+            <td>
+              <select
+                id="roon"
+                class="form-select"
+                aria-label="Default select example"
+                style="width: 200px"
+                onchange='
+                var total_additional_exp = get_total_additional_exp();
+                additional_exp = document.getElementById("roon").value;
+                document.getElementById("total_additional_exp").innerHTML = calc_additional_exp(additional_exp, "roon_rate");
+                '
+              >
+                <option selected value="0">없음</option>
+                <option value="20">에반 링크 없음</option>
+                <option value="26">에반 링크 1 단계</option>
+                <option value="30">에반 링크 2 단계</option>
+              </select>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <img src="../images/icons/pc.png" />
+            </td>
+            <td>프리미엄 PC방</td>
+            <td>
+              <select
+                id="pc"
+                class="form-select"
+                aria-label="Default select example"
+                style="width: 200px"
+                onchange='
+                var total_additional_exp = get_total_additional_exp();
+                additional_exp = document.getElementById("pc").value;
+                document.getElementById("total_additional_exp").innerHTML = calc_additional_exp(additional_exp, "pc_rate");
+                '
+              >
+                <option selected value="0">없음</option>
+                <option value="30">있음</option>
+              </select>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="width: 460px; margin-right: 1rem;">
+      <table class = "table" style = "width: 460px; margin-bottom: 0; border-bottom: none;">
+        <thead>
+          <tr>
+            <th colspan="2" style="text-align: center; width: 250px">
+              몬스터 검색
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <tr>
+            <td style="padding: 4px; height: 55.5px; border-color: #dee2e6;">
+              <input
+              type="text"
+              class="form-control nomargin"
+              id="mob_keyword"
+              style="width: 450px; height: 45.5px; border: none"
+              min="0"
+              max="300"
+              placeholder="몬스터 검색"
+              onchange='
+              document.getElementById("mob_list").innerHTML = "";
+              var query_mob = document.getElementById("mob_keyword").value;
+              var cnt = 0;
+              if(query_mob != ""){
+              for (var key in mob_info){
+                if(key.indexOf(query_mob) !== -1){
+                  var id = document.getElementById("mob_list")
+      
+                  var tag = document.createElement("tr")
+                  tag.setAttribute("class", "mob")
+                  tag.setAttribute("style", "cursor:pointer")
+                  tag.id = "mob_tr"
+                  tag.value = String(mob_info[key]["level"]) + "," + String(mob_info[key]["exp"])
+      
+                  var mob_name = document.createElement("td")
+
+                  mob_name.innerHTML= key
+                  mob_name.id = "mob_tr_child"
+      
+                  var mob_level = document.createElement("td") 
+                  mob_level.setAttribute("style", "width: 100px")
+                  mob_level.innerHTML = "Lv. " + String(mob_info[key]["level"])
+                  mob_level.id = "mob_tr_child"
+      
+                  tag.appendChild(mob_level)
+                  tag.appendChild(mob_name)
+                  id.appendChild(tag)
+                  cnt += 1
+                  if(cnt == 15){
+                    break;
+                  }
+                }
+              }
+            }
+            else{
+              document.getElementById("mob_list").innerHTML = "<td>검색어를 입력해주세요</td>";
+            }
+              if(document.getElementById("mob_list").innerHTML === ""){
+                document.getElementById("mob_list").innerHTML = "<td>검색 결과가 없습니다</td>";
+              }
+              '
+              required
+            />
+          </td>
+          </tr>
+        </tbody>
+      </table>
+      
+      <table class = "table" >
+        <tbody id = "mob_list">
+
+        </tbody>
+      </table>
+  </div>
+      <div style="width: 460px; margin-right: 1rem">
+        <div style="width: 460px">
+          <table class="table">
+            <thead>
+              <tr>
+                <th colspan="2" style="text-align: center">캐릭터 상태</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="vertical-align: middle">
+                <td>현재 레벨</td>
+                <td>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="cur_level"
+                    style="width: 200px"
+                    min="0"
+                    max="299"
+                    placeholder="현재 레벨"
+                    onchange="
+                    let cur_level = parseInt(document.getElementById('cur_level').value)
+
+
+                    if(cur_level < 1){
+                      document.getElementById('cur_level').value = '1'
+                    }
+                    else if(cur_level > 299){
+                      document.getElementById('cur_level').value = '299'
+                    }
+                    "
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>현재 경험치</td>
+                <td>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="cur_exp_rate"
+                    style="width: 200px"
+                    min="0"
+                    max="100"
+                    placeholder="현재 경험치 %"
+                    onchange="
+                    let cur_exp_rate = parseFloat(document.getElementById('cur_exp_rate').value)
+
+
+                    if(cur_exp_rate < 0){
+                      document.getElementById('cur_exp_rate').value = '0'
+                    }
+                    else if(cur_exp_rate >= 100){
+                      document.getElementById('cur_exp_rate').value = '99.999'
+                    }
+                    "
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>경험치 배율</td>
+                <td style="text-align: left; height: 55px">
+                  <span
+                    class="nomargin"
+                    id="total_additional_exp"
+                    style="padding-left: 0.5rem"
+                    >100</span
+                  >%
+                </td>
+              </tr>
+              <tr>
+                <td>몹 경험치</td>
+                <td>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="mob_exp"
+                    style="width: 200px"
+                    min="1"
+                    placeholder="몹 경험치"
+                    onchange="
+                    let mob_exp = parseInt(document.getElementById('mob_exp').value)
+                    if(mob_exp < 1){
+                      document.getElementById('mob_exp').value = '1'
+                    }
+                    "
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>6분 마릿수</td>
+                <td>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="hunt_per6min"
+                    style="width: 200px"
+                    min="1"
+                    placeholder="6분 사냥 마릿수"
+                    onchange="
+                    let hunt_per6min = parseInt(document.getElementById('hunt_per6min').value)
+                    
+                    if(hunt_per6min < 1){
+                      document.getElementById('hunt_per6min').value = null
+                    }
+                    "
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>월드 구분</td>
+                <td>
+                  <select
+                    id="world"
+                    class="form-select"
+                    aria-label="Default select example"
+                    style="width: 200px"
+                  >
+                    <option selected value="1">일반</option>
+                    <option value="2">리부트</option>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div style="width: 460px">
+          <table class="table">
+            <thead>
+              <tr>
+                <th colspan="2" style="text-align: center; width: 250px">
+                  계산 결과
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>마릿수</td>
+                <td style="width: 250px">
+                  <pre
+                    class="nomargin"
+                    id="amount_mob"
+                    style="font-size: 16px"
+                  ></pre>
+                </td>
+              </tr>
+              <tr>
+                <td>레벨업 소요 시간</td>
+                <td style="width: 250px">
+                  <pre class="nomargin" id="hour" style="font-size: 16px"></pre>
+                </td>
+              </tr>
+              <tr>
+                <td>1 재획 경험치 %</td>
+                <td style="width: 250px">
+                  <pre
+                    class="nomargin"
+                    id="2hour"
+                    style="font-size: 16px"
+                  ></pre>
+                </td>
+              </tr>
+              <tr>
+                <td>30분 사냥 경험치 %</td>
+                <td style="width: 250px">
+                  <pre
+                    class="nomargin"
+                    id="30min"
+                    style="font-size: 16px"
+                  ></pre>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="d-grid gap-2">
+          <button
+            type="button"
+            class="btn btn-success"
+            onclick='
+            let a = validate_input_value()
+            if(a === 0){
+              document.getElementById("amount_mob").innerHTML = String(calc_amount_mob()) + " 마리";
+              document.getElementById("hour").innerHTML = String((calc_amount_mob() / (parseFloat(document.getElementById("hunt_per6min").value) * 10)).toFixed(2)) + " 시간";
+              document.getElementById("2hour").innerHTML = String(do_jaehoek()) + "%";
+              document.getElementById("30min").innerHTML = String((do_jaehoek()/4).toFixed(3)) + "%";
+            }
+            else if(a === 1){
+              document.getElementById("amount_mob").innerHTML = String(calc_amount_mob()) + " 마리";
+            }
+            '
+          >
+            계산
+          </button>
+        </div>
+        <br />
+        <button onclick = "saveSetting()">세이브</button>
+        <button onclick = "let x = document.cookie;
+        console.log(1)
+        console.log(document.cookie)
+        ">로드</button>
+      </div>
+      
+    <div id = "value_collect">
+    <input id="default_rate" type="hidden" value="0" />
+    <input id="exp_coupon_rate" type="hidden" value="0" />
+    <input id="exp_weather_rate" type="hidden" value="0" />
+    <input id="ex_gold_rate" type="hidden" value="0" />
+    <input id="exp_potion_rate" type="hidden" value="0" />
+    <input id="zero_rate" type="hidden" value="0" />
+    <input id="elf_rate" type="hidden" value="0" />
+    <input id="pendant_rate" type="hidden" value="0" />
+    <input id="ring_rate" type="hidden" value="0" />
+    <input id="burning_rate" type="hidden" value="0" />
+    <input id="hyper_rate" type="hidden" value="0" />
+    <input id="union_rate" type="hidden" value="0" />
+    <input id="user_rate" type="hidden" value="0" />
+    <input id="roon_rate" type="hidden" value="0" />
+    <input id="loaded_rate" type="hidden" value="0" />
+    <input id="pc_rate" type="hidden" value="0" />
+    <input id = "mob_level" type = "hidden" value = "0"/>
+    </div>
+
+    <script>
+      document.addEventListener('click',function(e){
+        if(e.target.id == "mob_tr_child"){
+          mother = e.target.parentNode;
+          mother = mother.value
+          mother = mother.split(",")
+          let mob_exp = mother[1]
+          document.getElementById("mob_exp").value = mob_exp;
+          document.getElementById("mob_level").value = mother[0]
+        }
+      });
+    </script>
+    </div>
+  </body>
+</html>
